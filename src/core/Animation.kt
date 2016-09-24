@@ -21,6 +21,11 @@ class AnimationCanvas( val draw: (g: GraphicsContext) -> Unit ) : Canvas(){
     }
 }
 
+class PlainCanvas( val draw: (g: GraphicsContext) -> Unit ) : Canvas(){
+    init{
+        draw(graphicsContext2D)
+    }
+}
 
 fun graphics(f: GraphicsContext.() -> Unit ) : (g: GraphicsContext) -> Unit{
     return { g:GraphicsContext-> g.f() }

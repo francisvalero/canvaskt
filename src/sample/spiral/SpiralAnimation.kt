@@ -1,4 +1,4 @@
-package sample
+package sample.spiral
 
 import core.graphics
 import javafx.scene.paint.Color.*
