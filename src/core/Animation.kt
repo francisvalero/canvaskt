@@ -20,15 +20,7 @@ class AnimationCanvas( val draw: (g: GraphicsContext, e: Environment) -> Unit,
     override fun render() = timer.start()
 }
 
-class PlainCanvas( val draw: (g: GraphicsContext, e: Environment) -> Unit,
-                   w: Double = 640.0,
-                   h: Double = 360.0) : Canvas(), Renderable{
-    init {
-        width = w
-        height = h
-    }
-    override fun render() = draw(graphicsContext2D, defaultEnvironment() )
-}
+
 
 interface Renderable{
     fun render()

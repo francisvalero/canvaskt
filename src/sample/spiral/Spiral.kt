@@ -1,6 +1,7 @@
 package sample.spiral
 
 import core.AnimationCanvas
+import core.App
 
 import javafx.application.Application
 import javafx.scene.Scene
@@ -27,6 +28,8 @@ class Spiral() : Application(){
         }
     }
 }
+
+
 
 
 
