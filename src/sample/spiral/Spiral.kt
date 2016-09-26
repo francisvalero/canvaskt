@@ -1,6 +1,7 @@
 package sample.spiral
 
 import core.AnimationCanvas
+
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.layout.StackPane
@@ -17,8 +18,7 @@ class Spiral() : Application(){
         stage.title = "JavaFX Canvas + Kotlin"
         stage.scene = scene
         stage.show()
-
-        canvas.start()
+        canvas.render()
     }
     companion object {
         @JvmStatic

@@ -5,28 +5,39 @@ import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 
 
-class AnimationCanvas( val draw: (g: GraphicsContext) -> Unit ) : Canvas(){
+class AnimationCanvas( val draw: (g: GraphicsContext, e: Environment) -> Unit,
+                       w: Double = 640.0,
+                       h: Double = 360.0) : Canvas(), Renderable{
+    init {
+        width = w
+        height = h
+    }
     val timer = object : AnimationTimer() {
         override fun handle(now: Long){
-            draw(graphicsContext2D)
+            draw(graphicsContext2D, Environment(now))
         }
     }
-
-    fun start(){
-        timer.start()
-    }
-
-    fun stop(){
-        timer.stop()
-    }
+    override fun render() = timer.start()
 }
 
-class PlainCanvas( val draw: (g: GraphicsContext) -> Unit ) : Canvas(){
-    init{
-        draw(graphicsContext2D)
+class PlainCanvas( val draw: (g: GraphicsContext, e: Environment) -> Unit,
+                   w: Double = 640.0,
+                   h: Double = 360.0) : Canvas(), Renderable{
+    init {
+        width = w
+        height = h
     }
+    override fun render() = draw(graphicsContext2D, defaultEnvironment() )
 }
 
-fun graphics(f: GraphicsContext.() -> Unit ) : (g: GraphicsContext) -> Unit{
-    return { g:GraphicsContext-> g.f() }
+interface Renderable{
+    fun render()
 }
+
+class Environment(val now:Long)
+
+fun graphics(f: GraphicsContext.(e: Environment) -> Unit) : (g: GraphicsContext, e: Environment) -> Unit{
+    return { g:GraphicsContext, e: Environment -> g.f(e) }
+}
+
+fun defaultEnvironment() = Environment(0.toLong())
