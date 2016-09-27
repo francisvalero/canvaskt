@@ -1,27 +1,29 @@
 package sample.variables
 
 import core.App
-import core.graphics
-import javafx.scene.paint.Color
+import core.Canvas2D
+import core.Sketch
+import javafx.scene.canvas.Canvas
 
-class Variables{
+class Variables {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            App.run(draw)
+            App.run(sketch)
         }
     }
 }
 
-val draw = graphics {
-    val x = it.mouseX
-    val y = it.mouseY
-    val clicked = it.isMousePressed
-    val time = it.now
-
-    clearRect(0.0,0.0, canvas.width, canvas.height)
-    fillText("Mouse X: $x", 50.0, 50.0)
-    fillText("Mouse Y: $y", 50.0, 80.0)
-    fillText("Mouse Clicked: $clicked", 50.0, 120.0)
-    fillText("timestamp in nanosec: $time", 50.0, 150.0)
+val sketch = Sketch {
+    draw {
+        val x = mouseX
+        val y = mouseY
+        val clicked = isMousePressed
+        val time = now
+        clearRect(0.0, 0.0, canvas.width, canvas.height)
+        fillText("Mouse X: $x", 50.0, 50.0)
+        fillText("Mouse Y: $y", 50.0, 80.0)
+        fillText("Mouse Clicked: $clicked", 50.0, 120.0)
+        fillText("timestamp in nanosec: $time", 50.0, 150.0)
+    }
 }

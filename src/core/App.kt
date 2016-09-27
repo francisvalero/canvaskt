@@ -9,7 +9,7 @@ import javafx.stage.Stage
 
 
 
-private var canvas: Renderable? = null
+private var canvas: Canvas2D? = null
 
 class App() : Application(){
 
@@ -17,11 +17,11 @@ class App() : Application(){
         val root = StackPane()
         canvas?.let { root.children.add(canvas as Canvas) }
         val scene = Scene(root)
-        stage.title = "JavaFX Canvas + Kotlin"
+        stage.title = "CanvasKT"
         stage.scene = scene
+        stage.isResizable = false
+        canvas?.start()
         stage.show()
-        canvas?.render()
-
     }
 
     /***
@@ -29,10 +29,8 @@ class App() : Application(){
      *  Usage:  App.run(draw, [width],[height])
      */
     companion object Runner{
-        fun run(draw: (g: GraphicsContext, e: Environment) -> Unit,
-                width: Double = 640.0,
-                height: Double = 360.0){
-            canvas = AnimationCanvas(draw, width, height)
+        fun run(sketch: Sketch, w: Double = 640.0, h: Double = 320.0){
+            canvas = Canvas2D(sketch, w, h)
             launch(App::class.java)
         }
     }

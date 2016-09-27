@@ -6,45 +6,73 @@ import javafx.scene.canvas.GraphicsContext
 import javafx.scene.input.MouseEvent.*
 
 
-class AnimationCanvas( val draw: (g: GraphicsContext, e: Environment) -> Unit,
-                       w: Double = 640.0,
-                       h: Double = 360.0) : Canvas(), Renderable{
-    init {
-        width = w
-        height = h
-        addEventFilter(ANY){
-            when(it.eventType){
-                MOUSE_MOVED, MOUSE_DRAGGED -> {
-                    mouseX = it.x
-                    mouseY = it.y
-                }
-                MOUSE_PRESSED -> isMousePressed = true
-                MOUSE_RELEASED -> isMousePressed = false
-            }
-        }
-    }
+class Sketch(f: Sketch.() -> Unit) {
+    var now: Long = 0
     var mouseX: Double = 0.0
     var mouseY: Double = 0.0
     var isMousePressed: Boolean = false
+    var width: Double = 0.0
+        get() = width
+        internal set(value) { field = value }
+    var height: Double = 0.0
+        get() = height
+        internal set(value) { field = value }
+    private var drawF: (GraphicsContext.() -> Unit) = {}
+    private var setupF: (GraphicsContext.() -> Unit) = {}
+
+    init{
+        f()
+    }
+
+    fun draw(g: GraphicsContext.() -> Unit) {
+        drawF = g
+    }
+
+    fun setup(g: GraphicsContext.() -> Unit) {
+        setupF = g
+    }
+
+    internal fun setup(g: GraphicsContext){
+        println("sketch setup")
+        g.setupF()
+    }
+    internal fun draw(g: GraphicsContext){
+        g.drawF()
+    }
+}
+
+
+class Canvas2D(val sketch: Sketch) : Canvas() {
+    constructor(sketch: Sketch, w: Double, h: Double):this(sketch){
+        width = w
+        height = h
+    }
+    init {
+        addEventFilter(ANY) {
+            when (it.eventType) {
+                MOUSE_MOVED -> {
+                    sketch.mouseX = it.x
+                    sketch.mouseY = it.y
+                }
+                MOUSE_PRESSED -> sketch.isMousePressed = true
+                MOUSE_RELEASED -> sketch.isMousePressed = false
+            }
+        }
+        widthProperty().addListener { a, b, c -> sketch.width = width }
+        heightProperty().addListener { a, b, c -> sketch.height = height }
+    }
 
     val timer = object : AnimationTimer() {
-        override fun handle(now: Long){
-            draw(graphicsContext2D, Environment(now, mouseX, mouseY, isMousePressed))
+        override fun handle(now: Long) {
+            sketch.now = now
+            sketch.draw(graphicsContext2D)
         }
     }
-    override fun render() = timer.start()
+
+    fun start() {
+        sketch.setup(graphicsContext2D)
+        timer.start()
+    }
+
+    fun stop() = timer.stop()
 }
-
-
-
-interface Renderable{
-    fun render()
-}
-
-class Environment(val now:Long, val mouseX: Double, val mouseY: Double, val isMousePressed: Boolean)
-
-fun graphics(f: GraphicsContext.(e: Environment) -> Unit) : (g: GraphicsContext, e: Environment) -> Unit{
-    return { g:GraphicsContext, e: Environment -> g.f(e) }
-}
-
-fun defaultEnvironment() = Environment(0.toLong(), 0.0, 0.0, false)
