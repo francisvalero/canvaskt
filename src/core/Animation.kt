@@ -33,7 +33,6 @@ class Sketch(f: Sketch.() -> Unit) {
     }
 
     internal fun setup(g: GraphicsContext){
-        println("sketch setup")
         g.setupF()
     }
     internal fun draw(g: GraphicsContext){
