@@ -10,6 +10,7 @@ class Simple{
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+
             App.run(sketch)
         }
     }
@@ -18,8 +19,10 @@ class Simple{
 val sketch = Sketch{
     setup{
         fill = Color.ORANGE
+
     }
     draw {
+        println("startNano:${nano}")
         val r = Random()
         fillRect(r.nextInt(640).toDouble(), r.nextInt(360).toDouble(), 10.0, 10.0)
     }

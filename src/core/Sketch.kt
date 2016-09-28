@@ -1,38 +1,31 @@
 package core
 
 import javafx.scene.canvas.GraphicsContext
-import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 
 class Sketch(f: Sketch.() -> Unit) {
-    var now: Long = 0
-        get() = now
+    var nano: Long = 0
         internal set(value) {
             field = value
         }
     var mouseX: Double = 0.0
-        get() = mouseX
         internal set(value) {
             field = value
         }
     var mouseY: Double = 0.0
-        get() = mouseY
         internal set(value) {
             field = value
         }
     var isMousePressed: Boolean = false
-        get() = isMousePressed
         internal set(value) {
             field = value
         }
     var width: Double = 0.0
-        get() = width
         internal set(value) {
             field = value
         }
     var height: Double = 0.0
-        get() = height
         internal set(value) {
             field = value
         }

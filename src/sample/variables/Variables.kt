@@ -19,7 +19,7 @@ val sketch = Sketch {
         val x = mouseX
         val y = mouseY
         val clicked = isMousePressed
-        val time = now
+        val time = nano
         clearRect(0.0, 0.0, canvas.width, canvas.height)
         fillText("Mouse X: $x", 50.0, 50.0)
         fillText("Mouse Y: $y", 50.0, 80.0)

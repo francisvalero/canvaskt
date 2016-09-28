@@ -59,12 +59,15 @@ class Canvas2D(val sketch: Sketch) : Canvas() {
 
     val timer = object : AnimationTimer() {
         override fun handle(now: Long) {
-            sketch.now = now
+            sketch.nano = now - startNano
             sketch.draw(graphicsContext2D)
         }
     }
 
+    var startNano = 0L
+
     fun start() {
+        startNano = System.nanoTime()
         sketch.setup(graphicsContext2D)
         timer.start()
     }
