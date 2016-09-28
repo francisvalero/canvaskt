@@ -2,12 +2,11 @@ package sample.simple
 
 import core.App
 import core.Sketch
-import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 import java.util.*
 
 
-class Simple(){
+class Simple{
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
